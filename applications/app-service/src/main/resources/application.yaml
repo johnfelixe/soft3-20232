@@ -1,0 +1,19 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: "AgroEasy"
+  devtools:
+    add-properties: false
+  profiles:
+    include: null
+  datasource:
+    url: "jdbc:postgresql://localhost:5432/AgroEasyDB"
+    username: "postgres"
+    password: "homero140491"
+    driverClassName: "org.postgresql.Driver"
+  jpa:
+    databasePlatform: "org.hibernate.dialect.PostgreSQLDialect"
+    typePersistence: "create-drop"
+  main:
+    allow-bean-definition-overriding: true

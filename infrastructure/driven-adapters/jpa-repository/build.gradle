@@ -1,0 +1,17 @@
+dependencies {
+    implementation project(':model')
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.6.6'
+    implementation 'org.reactivecommons.utils:object-mapper-api:0.1.0'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.13.2'
+    implementation group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.3.4.RELEASE'
+    implementation group: 'org.springframework.security', name: 'spring-security-jwt', version: '1.0.9.RELEASE'
+    implementation group: 'javax.xml.bind', name: 'jaxb-api'
+    implementation group: 'org.glassfish.jaxb', name: 'jaxb-runtime'
+    implementation('org.springframework.boot:spring-boot-starter-jdbc')
+
+    runtimeOnly 'org.postgresql:postgresql:42.3.4'
+    testImplementation 'org.reactivecommons.utils:object-mapper:0.1.0'
+
+
+}

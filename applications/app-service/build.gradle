@@ -1,0 +1,25 @@
+apply plugin: 'org.springframework.boot'
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-undertow:2.6.6'
+    implementation group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.3.4.RELEASE'
+    implementation group: 'org.springframework.security', name: 'spring-security-jwt', version: '1.0.9.RELEASE'
+    implementation group: 'javax.xml.bind', name: 'jaxb-api'
+    implementation group: 'org.glassfish.jaxb', name: 'jaxb-runtime'
+    implementation project(':api-rest')
+    implementation 'org.reactivecommons.utils:object-mapper:0.1.0'
+    implementation project(':jpa-repository')
+    implementation project(':model')
+    implementation project(':usecase')
+    implementation 'org.springframework.boot:spring-boot-starter:2.6.6'
+    runtimeOnly('org.springframework.boot:spring-boot-devtools:2.6.6')
+}
+
+task explodedJar(type: Copy) {
+    with jar
+    into "${buildDir}/exploded"
+}
+
+configurations {
+    compile.exclude group: "org.springframework.boot", module: "spring-boot-starter-tomcat"
+}

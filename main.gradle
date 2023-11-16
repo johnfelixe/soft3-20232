@@ -1,0 +1,77 @@
+allprojects {
+    repositories {
+        mavenCentral()
+        maven { url "https://repo.spring.io/snapshot" }
+        maven { url "https://repo.spring.io/milestone" }
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'jacoco'
+    apply plugin: 'io.spring.dependency-management'
+
+
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+
+
+    dependencies {
+        implementation "org.springframework.boot:spring-boot-starter:${springBootVersion}"
+        testImplementation("org.springframework.boot:spring-boot-starter-test:${springBootVersion}") {
+            exclude(group: "junit", module: "junit")
+            exclude(group: "org.junit.vintage", module: "junit-vintage-engine")
+        }
+
+        compileOnly "org.projectlombok:lombok:${lombokVersion}"
+        annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+        testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+        testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    }
+
+    configurations.implementation {
+        exclude group: 'org.apache.logging.log4j', module: 'log4j-to-slf4j'
+    }
+
+
+    test {
+        useJUnitPlatform()
+    }
+
+    test.finalizedBy(project.tasks.jacocoTestReport)
+
+    jacocoTestReport {
+        reports {
+            xml.enabled true
+            csv.enabled false
+        }
+    }
+
+
+}
+
+jacoco {
+    toolVersion = "${jacocoVersion}"
+    reportsDirectory = file("$buildDir/reports")
+}
+
+task jacocoMergedReport(type: JacocoReport) {
+    dependsOn = subprojects.jacocoTestReport
+    additionalSourceDirs.setFrom files(subprojects.sourceSets.main.allSource.srcDirs)
+    sourceDirectories.setFrom files(subprojects.sourceSets.main.allSource.srcDirs)
+    classDirectories.setFrom files(subprojects.sourceSets.main.output)
+    executionData.setFrom project.fileTree(dir: '.', include: '**/build/jacoco/test.exec')
+    reports {
+        xml.enabled true
+        xml.outputLocation = file("${buildDir}/jacoco/report.xml")
+        csv.enabled false
+        html.enabled true
+        html.outputLocation = file("${buildDir}/jacoco")
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs = [
+            '-Amapstruct.suppressGeneratorTimestamp=true'
+    ]
+}

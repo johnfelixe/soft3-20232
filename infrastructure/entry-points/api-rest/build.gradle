@@ -1,0 +1,9 @@
+dependencies {
+    implementation project(':usecase')
+    implementation project(':model')
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.6.6'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator:2.6.6'
+    implementation group: 'org.springframework', name: 'spring-tx', version: '5.3.19'
+    testImplementation group: 'org.springframework.security', name: 'spring-security-test', version: '5.7.1'
+
+}
